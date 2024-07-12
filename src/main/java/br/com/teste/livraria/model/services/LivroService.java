@@ -1,13 +1,15 @@
 package br.com.teste.livraria.model.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.teste.livraria.model.dtos.LivroDto;
 import br.com.teste.livraria.model.entities.Livro;
 import br.com.teste.livraria.model.entities.Resumo;
+import br.com.teste.livraria.model.exceptions.ResourceNotFoundException;
 import br.com.teste.livraria.model.repositories.LivroRepositorie;
-import br.com.teste.livraria.model.repositories.ResumoRepositorie;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -15,10 +17,7 @@ public class LivroService {
 
 	@Autowired
 	private LivroRepositorie livroRepositorie;
-	
-	@Autowired
-	private ResumoRepositorie resumoRepositorie;
-	
+
 	@Transactional
 	public Livro insert(LivroDto livroDto) {
 		Livro livro = new Livro();
@@ -27,10 +26,17 @@ public class LivroService {
 		Resumo resumo = new Resumo();
 		resumo.setComentario(livroDto.comentario());
 		resumo.setLivro(livro);
-		
-		resumoRepositorie.save(resumo);
+		livro.setResumo(resumo);
 						
 		return livroRepositorie.save(livro);
-		
+	}
+	
+	public Livro findById(Long id) {
+		return livroRepositorie.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+	}
+	
+	public List<Livro> findAll() {
+		List<Livro> list = livroRepositorie.findAll();
+		return list;
 	}
 }
