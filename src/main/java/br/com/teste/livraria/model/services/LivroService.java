@@ -40,6 +40,7 @@ public class LivroService {
 		return list;
 	}
 	
+	@Transactional
 	public Livro update(Long id, LivroDto livroDto) {
 		Livro livro = findById(id);
 		updateData(livro, livroDto);
@@ -54,6 +55,7 @@ public class LivroService {
 		resumo.setLivro(livro);
 	}
 	
+	@Transactional
 	public void delete(Long id) {
 		if(!livroRepositorie.existsById(id)) {
 			throw new ResourceNotFoundException(id);
