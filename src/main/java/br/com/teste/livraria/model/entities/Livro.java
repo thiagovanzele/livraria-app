@@ -16,13 +16,12 @@ import lombok.Setter;
 @EqualsAndHashCode(of = "id")
 
 @Entity
-@Table(name = "tb_resumo")
-public class Resumo {
-	
+@Table(name = "tb_livro")
+public class Livro {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String comentario;
-
+	private String title;
 }
