@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,5 +45,11 @@ public class LivroController {
 				.buildAndExpand(livro.getId()).toUri();
 		
 		return ResponseEntity.created(uri).body(livro);
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Livro> update(@PathVariable Long id, @RequestBody LivroDto livroDto) {
+		Livro livro = service.update(id, livroDto);
+		return ResponseEntity.ok(livro);
 	}
 }

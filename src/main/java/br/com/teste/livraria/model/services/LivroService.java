@@ -39,4 +39,18 @@ public class LivroService {
 		List<Livro> list = livroRepositorie.findAll();
 		return list;
 	}
+	
+	public Livro update(Long id, LivroDto livroDto) {
+		Livro livro = findById(id);
+		updateData(livro, livroDto);
+		return livroRepositorie.save(livro);
+	}
+
+	private void updateData(Livro livro, LivroDto livroDto) {
+		livro.setTitle(livroDto.titulo());
+		livro.getResumo().setComentario(livroDto.comentario());
+		
+		Resumo resumo = livro.getResumo();
+		resumo.setLivro(livro);
+	}
 }
