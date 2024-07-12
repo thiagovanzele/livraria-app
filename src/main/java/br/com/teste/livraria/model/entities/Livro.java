@@ -3,6 +3,7 @@ package br.com.teste.livraria.model.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import br.com.teste.livraria.model.dtos.LivroDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,9 +26,12 @@ public class Livro implements Serializable {
 	private String title;
 
 	public Livro() {
-		super();
 	}
 
+	public Livro(LivroDto livroDto) {
+		this.title = livroDto.titulo();
+	}
+	
 	public Long getId() {
 		return id;
 	}

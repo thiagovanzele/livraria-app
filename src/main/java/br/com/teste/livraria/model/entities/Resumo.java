@@ -3,6 +3,7 @@ package br.com.teste.livraria.model.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,7 @@ public class Resumo implements Serializable {
 
 	private String comentario;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Livro livro;
 
 	public Resumo() {
