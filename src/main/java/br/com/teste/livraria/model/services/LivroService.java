@@ -53,4 +53,11 @@ public class LivroService {
 		Resumo resumo = livro.getResumo();
 		resumo.setLivro(livro);
 	}
+	
+	public void delete(Long id) {
+		if(!livroRepositorie.existsById(id)) {
+			throw new ResourceNotFoundException(id);
+		}
+		livroRepositorie.deleteById(id);
+	}
 }
