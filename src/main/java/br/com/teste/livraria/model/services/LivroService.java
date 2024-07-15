@@ -24,7 +24,7 @@ public class LivroService {
 		livro.setTitle(livroDto.titulo());
 		
 		Resumo resumo = new Resumo();
-		resumo.setComentario(livroDto.comentario());
+		resumo.setComentario(livroDto.resumo());
 		resumo.setLivro(livro);
 		livro.setResumo(resumo);
 						
@@ -49,7 +49,7 @@ public class LivroService {
 
 	private void updateData(Livro livro, LivroDto livroDto) {
 		livro.setTitle(livroDto.titulo());
-		livro.getResumo().setComentario(livroDto.comentario());
+		livro.getResumo().setComentario(livroDto.resumo());
 		
 		Resumo resumo = livro.getResumo();
 		resumo.setLivro(livro);

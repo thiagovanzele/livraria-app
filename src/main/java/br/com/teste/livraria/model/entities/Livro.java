@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -20,9 +22,11 @@ public class Livro implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(unique = true)
 	private String title;
 
-	@OneToOne(mappedBy = "livro",cascade = CascadeType.ALL)
+	@JoinColumn(nullable = false, unique = true)
+	@OneToOne(mappedBy = "livro", cascade = CascadeType.ALL)
 	private Resumo resumo;
 
 	public Livro() {
