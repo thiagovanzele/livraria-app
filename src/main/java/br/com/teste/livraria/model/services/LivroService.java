@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.teste.livraria.model.dtos.LivroDto;
+import br.com.teste.livraria.model.entities.Editora;
 import br.com.teste.livraria.model.entities.Livro;
 import br.com.teste.livraria.model.entities.Resumo;
 import br.com.teste.livraria.model.exceptions.ResourceNotFoundException;
+import br.com.teste.livraria.model.repositories.EditoraRepositorie;
 import br.com.teste.livraria.model.repositories.LivroRepositorie;
 import jakarta.transaction.Transactional;
 
@@ -17,16 +19,23 @@ public class LivroService {
 
 	@Autowired
 	private LivroRepositorie livroRepositorie;
+	
+	@Autowired
+	private EditoraRepositorie editoraRepositorie;
 
 	@Transactional
 	public Livro insert(LivroDto livroDto) {
 		Livro livro = new Livro();
 		livro.setTitle(livroDto.titulo());
 		
+		Editora editora = editoraRepositorie.getReferenceById(livroDto.idEditora());
+		livro.setEditora(editora);
+		
 		Resumo resumo = new Resumo();
 		resumo.setComentario(livroDto.resumo());
 		resumo.setLivro(livro);
 		livro.setResumo(resumo);
+		editora.getLivros().add(livro);
 						
 		return livroRepositorie.save(livro);
 	}

@@ -1,8 +1,11 @@
 package br.com.teste.livraria.model.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -11,15 +14,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_livro")
+@Table(name = "tb_editora")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Livro implements Serializable {
+public class Editora implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,17 +28,22 @@ public class Livro implements Serializable {
 	private Long id;
 
 	@Column(unique = true)
-	private String title;
+	private String nome;
 
-	@JoinColumn(nullable = false, unique = true)
-	@OneToOne(mappedBy = "livro", cascade = CascadeType.ALL)
-	private Resumo resumo;
+	@JsonIgnore
+	@OneToMany(mappedBy = "editora", cascade = CascadeType.PERSIST)
+	private Set<Livro> livros = new HashSet<>();
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "id_editora", nullable = false)
-	private Editora editora;
+	public Editora(String nome) {
+		this.nome = nome;
+	}
 
-	public Livro() {
+	public Editora(String nome, Set<Livro> livro) {
+		this.nome = nome;
+		this.livros = livros != null ? livros : new HashSet<Livro>();
+	}
+
+	public Editora() {
 	}
 
 	public Long getId() {
@@ -48,28 +54,20 @@ public class Livro implements Serializable {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public Resumo getResumo() {
-		return resumo;
+	public Set<Livro> getLivros() {
+		return livros;
 	}
 
-	public void setResumo(Resumo resumo) {
-		this.resumo = resumo;
-	}
-
-	public Editora getEditora() {
-		return editora;
-	}
-
-	public void setEditora(Editora editora) {
-		this.editora = editora;
+	public void setLivros(Set<Livro> livro) {
+		this.livros = livro;
 	}
 
 	@Override
@@ -85,7 +83,7 @@ public class Livro implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Livro other = (Livro) obj;
+		Editora other = (Editora) obj;
 		return Objects.equals(id, other.id);
 	}
 }
