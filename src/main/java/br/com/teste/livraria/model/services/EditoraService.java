@@ -48,6 +48,15 @@ public class EditoraService {
 	}
 	
 	@Transactional
+	public void delete(Long id) {
+		if (!editoraRepositorie.existsById(id)) {
+			throw new ResourceNotFoundException(id);
+		}
+		
+		editoraRepositorie.deleteById(id);
+	}
+	
+	@Transactional
 	public Editora update(Long id, EditoraDto obj) {
 		Editora editora = editoraRepositorie.getReferenceById(id);
 		if (editora == null) {
