@@ -46,4 +46,22 @@ public class EditoraService {
 		
 		return editoraRepositorie.save(editora);
 	}
+	
+	@Transactional
+	public Editora update(Long id, EditoraDto obj) {
+		Editora editora = editoraRepositorie.getReferenceById(id);
+		if (editora == null) {
+			throw new ResourceNotFoundException(id);
+		}
+		updateData(editora, obj);
+		return editoraRepositorie.save(editora);
+	}
+
+	private void updateData(Editora editora, EditoraDto obj) {
+		editora.setNome(obj.nome());
+		editora.setLivros(livroRepositorie.findAllById(obj.livrosIds()).stream().collect(Collectors.toSet()));
+		for (Livro livro : editora.getLivros()) {
+			livro.setEditora(editora);
+		}
+	}
 }
