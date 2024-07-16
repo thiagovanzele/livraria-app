@@ -1,9 +1,12 @@
 package br.com.teste.livraria.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,18 @@ public class EditoraController {
 
 	@Autowired
 	private EditoraService service;
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Editora> findById(@PathVariable Long id) {
+		Editora editora = service.findById(id);
+		return ResponseEntity.ok().body(editora);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<Editora>> findAll() {
+		List<Editora> list = service.findAll();
+		return ResponseEntity.ok().body(list);
+	}
 	
 	@PostMapping
 	public ResponseEntity<Editora> insert(@RequestBody EditoraDto obj) {
