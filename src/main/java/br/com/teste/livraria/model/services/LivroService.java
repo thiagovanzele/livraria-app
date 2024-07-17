@@ -26,7 +26,7 @@ public class LivroService {
 	@Transactional
 	public Livro insert(LivroDto livroDto) {
 		Livro livro = new Livro();
-		livro.setTitle(livroDto.titulo());
+		livro.setTitutlo(livroDto.titulo());
 		
 		Editora editora = editoraRepositorie.getReferenceById(livroDto.idEditora());
 		livro.setEditora(editora);
@@ -57,7 +57,7 @@ public class LivroService {
 	}
 
 	private void updateData(Livro livro, LivroDto livroDto) {
-		livro.setTitle(livroDto.titulo());
+		livro.setTitutlo(livroDto.titulo());
 		livro.getResumo().setComentario(livroDto.resumo());
 		
 		Resumo resumo = livro.getResumo();

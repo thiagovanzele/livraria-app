@@ -19,7 +19,7 @@ public class ResumoService {
 	
 	public Resumo insert(ResumoDto obj) {
 		Livro livro = new Livro();
-		livro.setTitle(obj.livro());
+		livro.setTitutlo(obj.livro());
 		
 		Resumo resumo = new Resumo();
 		resumo.setComentario(obj.resumo());
@@ -57,7 +57,7 @@ public class ResumoService {
 	}
 
 	private void updateData(Resumo resumo, ResumoDto obj) {
-		resumo.getLivro().setTitle(obj.livro());
+		resumo.getLivro().setTitutlo(obj.livro());
 		resumo.setComentario(obj.resumo());
 	}
 	

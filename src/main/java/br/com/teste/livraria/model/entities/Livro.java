@@ -1,7 +1,9 @@
 package br.com.teste.livraria.model.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -12,13 +14,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_livro")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Livro implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -27,7 +31,7 @@ public class Livro implements Serializable {
 	private Long id;
 
 	@Column(unique = true)
-	private String title;
+	private String titulo;
 
 	@JoinColumn(nullable = false, unique = true)
 	@OneToOne(mappedBy = "livro", cascade = CascadeType.ALL)
@@ -36,6 +40,10 @@ public class Livro implements Serializable {
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_editora", nullable = false)
 	private Editora editora;
+
+	@ManyToMany
+	@JoinTable(name = "tb_livro_autor", joinColumns = @JoinColumn(name = "id_livro"), inverseJoinColumns = @JoinColumn(name = "id_autor"))
+	private Set<Autor> autores = new HashSet<>();
 
 	public Livro() {
 	}
@@ -49,11 +57,11 @@ public class Livro implements Serializable {
 	}
 
 	public String getTitle() {
-		return title;
+		return titulo;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setTitutlo(String title) {
+		this.titulo = title;
 	}
 
 	public Resumo getResumo() {
@@ -70,6 +78,14 @@ public class Livro implements Serializable {
 
 	public void setEditora(Editora editora) {
 		this.editora = editora;
+	}
+
+	public Set<Autor> getAutores() {
+		return autores;
+	}
+
+	public void setAutores(Set<Autor> autores) {
+		this.autores = autores;
 	}
 
 	@Override
