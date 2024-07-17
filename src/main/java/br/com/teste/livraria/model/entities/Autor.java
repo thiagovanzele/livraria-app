@@ -4,9 +4,14 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.teste.livraria.model.dtos.AutorDto;
+import br.com.teste.livraria.model.exceptions.ResourceNotFoundException;
+import br.com.teste.livraria.model.repositories.LivroRepository;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,12 +31,17 @@ public class Autor implements Serializable {
 	private String nome;
 
 	@JsonIgnore
-	@ManyToMany(mappedBy = "autores")
+	@ManyToMany(mappedBy = "autores", cascade = CascadeType.PERSIST)
 	private Set<Livro> livros = new HashSet<>();
 
 	public Autor(String nome, Set<Livro> livros) {
 		this.nome = nome;
 		this.livros = livros;
+	}
+	
+	public Autor(AutorDto autorDto, LivroRepository livroRepository) {
+		this.nome = autorDto.nome();
+		this.livros = autorDto.livrosIds().stream().map(id -> livroRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id))).collect(Collectors.toSet());
 	}
 
 	public Autor() {
