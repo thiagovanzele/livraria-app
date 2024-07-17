@@ -10,18 +10,18 @@ import br.com.teste.livraria.model.entities.Editora;
 import br.com.teste.livraria.model.entities.Livro;
 import br.com.teste.livraria.model.entities.Resumo;
 import br.com.teste.livraria.model.exceptions.ResourceNotFoundException;
-import br.com.teste.livraria.model.repositories.EditoraRepositorie;
-import br.com.teste.livraria.model.repositories.LivroRepositorie;
+import br.com.teste.livraria.model.repositories.EditoraRepository;
+import br.com.teste.livraria.model.repositories.LivroRepository;
 import jakarta.transaction.Transactional;
 
 @Service
 public class LivroService {
 
 	@Autowired
-	private LivroRepositorie livroRepositorie;
+	private LivroRepository livroRepositorie;
 	
 	@Autowired
-	private EditoraRepositorie editoraRepositorie;
+	private EditoraRepository editoraRepositorie;
 
 	@Transactional
 	public Livro insert(LivroDto livroDto) {

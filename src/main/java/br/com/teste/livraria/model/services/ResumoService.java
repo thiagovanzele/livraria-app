@@ -9,13 +9,13 @@ import br.com.teste.livraria.model.dtos.ResumoDto;
 import br.com.teste.livraria.model.entities.Livro;
 import br.com.teste.livraria.model.entities.Resumo;
 import br.com.teste.livraria.model.exceptions.ResourceNotFoundException;
-import br.com.teste.livraria.model.repositories.ResumoRepositorie;
+import br.com.teste.livraria.model.repositories.ResumoRepository;
 
 @Service
 public class ResumoService {
 
 	@Autowired
-	private ResumoRepositorie resumoRepositore;
+	private ResumoRepository resumoRepositore;
 	
 	public Resumo insert(ResumoDto obj) {
 		Livro livro = new Livro();

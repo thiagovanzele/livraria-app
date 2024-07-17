@@ -10,18 +10,18 @@ import br.com.teste.livraria.model.dtos.EditoraDto;
 import br.com.teste.livraria.model.entities.Editora;
 import br.com.teste.livraria.model.entities.Livro;
 import br.com.teste.livraria.model.exceptions.ResourceNotFoundException;
-import br.com.teste.livraria.model.repositories.EditoraRepositorie;
-import br.com.teste.livraria.model.repositories.LivroRepositorie;
+import br.com.teste.livraria.model.repositories.EditoraRepository;
+import br.com.teste.livraria.model.repositories.LivroRepository;
 import jakarta.transaction.Transactional;
 
 @Service
 public class EditoraService {
 
 	@Autowired
-	private EditoraRepositorie editoraRepositorie;
+	private EditoraRepository editoraRepositorie;
 	
 	@Autowired
-	private LivroRepositorie livroRepositorie;
+	private LivroRepository livroRepositorie;
 	
 	public Editora findById(Long id) {
 		return editoraRepositorie.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
