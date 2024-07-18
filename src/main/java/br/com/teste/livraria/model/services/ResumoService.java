@@ -31,7 +31,7 @@ public class ResumoService {
 	}
 	
 	public Resumo findById(Long id) {
-		return resumoRepositore.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+		return resumoRepositore.findById(id).orElseThrow(() -> new ResourceNotFoundException(Resumo.class, id));
 	}
 	
 	public List<Resumo> findAll() {
@@ -40,7 +40,7 @@ public class ResumoService {
 	
 	public void delete(Long id) {
 		if (!resumoRepositore.existsById(id)) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException(Resumo.class, id);
 		}
 		resumoRepositore.deleteById(id);
 	}
@@ -49,7 +49,7 @@ public class ResumoService {
 		Resumo resumo = resumoRepositore.getReferenceById(id);
 		
 		if (resumo == null) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException(Resumo.class, id);
 		}
 		
 		updateData(resumo, obj);

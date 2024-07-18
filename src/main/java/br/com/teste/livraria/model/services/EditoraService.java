@@ -24,7 +24,7 @@ public class EditoraService {
 	private LivroRepository livroRepositorie;
 	
 	public Editora findById(Long id) {
-		return editoraRepositorie.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+		return editoraRepositorie.findById(id).orElseThrow(() -> new ResourceNotFoundException(Editora.class, id));
 	}
 	
 	public List<Editora> findAll() {
@@ -50,7 +50,7 @@ public class EditoraService {
 	@Transactional
 	public void delete(Long id) {
 		if (!editoraRepositorie.existsById(id)) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException(Editora.class, id);
 		}
 		
 		editoraRepositorie.deleteById(id);
@@ -60,7 +60,7 @@ public class EditoraService {
 	public Editora update(Long id, EditoraDto obj) {
 		Editora editora = editoraRepositorie.getReferenceById(id);
 		if (editora == null) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException(Editora.class, id);
 		}
 		updateData(editora, obj);
 		return editoraRepositorie.save(editora);

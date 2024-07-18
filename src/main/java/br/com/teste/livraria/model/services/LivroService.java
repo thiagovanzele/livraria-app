@@ -39,7 +39,7 @@ public class LivroService {
 		Livro livro = new Livro();
 		livro.setTitutlo(livroDto.titulo());
 
-		Editora editora = editoraRepository.getReferenceById(livroDto.idEditora());
+		Editora editora = editoraRepository.findById(livroDto.idEditora()).orElseThrow(() -> new ResourceNotFoundException(Editora.class, livroDto.idEditora()));
 		livro.setEditora(editora);
 
 		Resumo resumo = new Resumo();
@@ -49,7 +49,7 @@ public class LivroService {
 		editora.getLivros().add(livro);
 		
 		livroDto.autoresIds().stream().forEach(idAutor -> {
-			Autor autor = autorRepository.findById(idAutor).orElseThrow(() -> new ResourceNotFoundException(idAutor));
+			Autor autor = autorRepository.findById(idAutor).orElseThrow(() -> new ResourceNotFoundException(Autor.class, idAutor));
 			autorRepository.save(autor);
 			autor.getLivros().add(livro);
 			livro.getAutores().add(autor);
@@ -59,7 +59,7 @@ public class LivroService {
 	}
 
 	public Livro findById(Long id) {
-		return livroRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+		return livroRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Livro.class, id));
 	}
 
 	public List<Livro> findAll() {
@@ -85,7 +85,7 @@ public class LivroService {
 	@Transactional
 	public void delete(Long id) {
 		if (!livroRepository.existsById(id)) {
-			throw new ResourceNotFoundException(id);
+			throw new ResourceNotFoundException(Livro.class, id);
 		}
 		livroRepository.deleteById(id);
 	}

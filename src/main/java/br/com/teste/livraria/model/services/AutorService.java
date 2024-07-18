@@ -23,7 +23,7 @@ public class AutorService {
 	private LivroRepository livroRepository;
 
 	public Autor findById(Long id) {
-		return autorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+		return autorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Autor.class, id));
 	}
 
 	public List<Autor> findAll() {
@@ -45,31 +45,34 @@ public class AutorService {
 
 	@Transactional
 	public void delete(Long id) {
+		if (!autorRepository.existsById(id)) {
+			throw new ResourceNotFoundException(Autor.class, id);
+		}
 		autorRepository.deleteById(id);
-		;
 	}
 
 	@Transactional
 	public Autor update(Long id, AutorDto autorDto) {
-		
-		Autor autor = autorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
-		
+
+		Autor autor = autorRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Autor.class, id));
+
 		updateData(autor, autorDto);
-		
+
 		return autorRepository.save(autor);
-		
+
 	}
 
 	private void updateData(Autor autor, AutorDto autorDto) {
 		autor.setNome(autorDto.nome());
-		
+
 		autorDto.livrosIds().stream().forEach(idLivro -> {
-			Livro livro = livroRepository.findById(idLivro).orElseThrow(() -> new ResourceNotFoundException(idLivro));
+			Livro livro = livroRepository.findById(idLivro)
+					.orElseThrow(() -> new ResourceNotFoundException(Livro.class, idLivro));
 			if (!autor.getLivros().contains(livro)) {
 				autor.getLivros().add(livro);
 			}
-			
-			if(!livro.getAutores().contains(autor)) {
+
+			if (!livro.getAutores().contains(autor)) {
 				livro.getAutores().add(autor);
 			}
 		});
