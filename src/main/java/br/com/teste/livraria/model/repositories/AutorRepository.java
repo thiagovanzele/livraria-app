@@ -6,4 +6,5 @@ import br.com.teste.livraria.model.entities.Autor;
 
 public interface AutorRepository extends JpaRepository<Autor, Long> {
 
+	public Autor findAutorByNomeIgnoreCase(String nome);
 }

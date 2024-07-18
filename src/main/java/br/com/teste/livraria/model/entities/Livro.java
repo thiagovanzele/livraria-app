@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.com.teste.livraria.model.exceptions.ValidationException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,6 +19,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
@@ -86,6 +89,14 @@ public class Livro implements Serializable {
 
 	public void setAutores(Set<Autor> autores) {
 		this.autores = autores;
+	}
+	
+	@PrePersist
+	@PreUpdate
+	private void validateAutores() {
+		if (this.autores == null || this.autores.isEmpty()) {
+			throw new ValidationException("Livro deve conter pelo menos um autor");
+		}
 	}
 
 	@Override
