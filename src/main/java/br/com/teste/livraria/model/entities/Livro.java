@@ -59,7 +59,7 @@ public class Livro implements Serializable {
 		this.id = id;
 	}
 
-	public String getTitle() {
+	public String getTitulo() {
 		return titulo;
 	}
 
