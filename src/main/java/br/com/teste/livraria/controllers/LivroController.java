@@ -32,6 +32,12 @@ public class LivroController {
 		return ResponseEntity.ok(livro);
 	}
 	
+	@GetMapping("/buscarpornome/{nomeDoLivro}")
+	public ResponseEntity<List<Livro>> findByNome(@PathVariable String nomeDoLivro) {
+		List<Livro> list = service.findByName(nomeDoLivro);
+		return ResponseEntity.ok(list);
+	}
+	
 	@GetMapping
 	public ResponseEntity<List<Livro>> findAll() {
 		List<Livro> list = service.findAll();

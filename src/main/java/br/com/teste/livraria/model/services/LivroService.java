@@ -66,6 +66,14 @@ public class LivroService {
 		List<Livro> list = livroRepository.findAll();
 		return list;
 	}
+	
+	public List<Livro> findByName(String nomeDoLivro) {
+		List<Livro> list = livroRepository.findByTituloContainingIgnoreCase(nomeDoLivro);
+		if (list == null || list.isEmpty()) {
+			throw new ResourceNotFoundException(Livro.class, nomeDoLivro);
+		}
+		return list;
+	}
 
 	@Transactional
 	public Livro update(Long id, LivroDto livroDto) {
