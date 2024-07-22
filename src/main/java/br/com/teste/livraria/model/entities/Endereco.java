@@ -25,6 +25,9 @@ public class Endereco implements Serializable {
 	private String complemento;
 	
 	@Column(nullable = false)
+	private String rua;
+	
+	@Column(nullable = false)
 	private String bairro;
 	
 	@Column(nullable = false)
@@ -102,6 +105,14 @@ public class Endereco implements Serializable {
 
 	public void setNumero(String numero) {
 		this.numero = numero;
+	}
+	
+	public String getRua() {
+		return rua;
+	}
+
+	public void setRua(String rua) {
+		this.rua = rua;
 	}
 
 	@Override

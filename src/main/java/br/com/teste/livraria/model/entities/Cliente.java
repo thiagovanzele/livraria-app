@@ -3,10 +3,13 @@ package br.com.teste.livraria.model.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,10 +21,16 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(nullable = false)
 	private String nome;
+	
+	@Column(nullable = false, unique = true)
 	private String documento;
+	
+	@Column(unique = true)
 	private String email;
 	
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	private Endereco endereco;
 
 	public Cliente() {
