@@ -42,11 +42,11 @@ public class ClienteService {
 	}
 
 	public void delete(Long id) {
-		if (clienteRepository.existsById(id)) {
-			clienteRepository.deleteById(id);
+		if (!clienteRepository.existsById(id)) {
+			throw new ResourceNotFoundException(Cliente.class, id);
 		}
 
-		throw new ResourceNotFoundException(Cliente.class, id);
+		clienteRepository.deleteById(id);
 	}
 	
 	public Cliente update(Long id, ClienteDto clienteDto) {
