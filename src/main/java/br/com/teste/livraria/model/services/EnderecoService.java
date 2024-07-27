@@ -1,5 +1,7 @@
 package br.com.teste.livraria.model.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,31 @@ public class EnderecoService {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 
+	public Endereco findById(Long id) {
+		return enderecoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Endereco.class, id));
+	}
+
+	public List<Endereco> findAll() {
+		List<Endereco> list = enderecoRepository.findAll();
+		return list;
+	}
+
+	public void delete(Long id) {
+		if (!enderecoRepository.existsById(id)) {
+			throw new ResourceNotFoundException(Endereco.class, id);
+		}
+		enderecoRepository.deleteById(id);
+	}
+
 	public Endereco buscarEnderecoPorCep(String cep, String numero) {
+		
+		Endereco endereco = enderecoRepository.findEnderecoByCep(cep);
+		
+		if (endereco != null && endereco.getNumero().equals(numero)) {
+			System.out.println("Endereco encontrado!");
+			return endereco;
+		}
+
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			String url = "https://viacep.com.br/ws/" + cep + "/json/";
@@ -27,8 +53,8 @@ public class EnderecoService {
 			ResponseEntity<ViaCepResponse> response = restTemplate.getForEntity(url, ViaCepResponse.class);
 
 			if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+				endereco = new Endereco();
 				ViaCepResponse body = response.getBody();
-				Endereco endereco = new Endereco();
 				endereco.setCep(cep);
 				endereco.setNumero(numero);
 				endereco.setRua(body.logradouro());

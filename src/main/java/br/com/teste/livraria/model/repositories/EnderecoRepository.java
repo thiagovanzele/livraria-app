@@ -6,4 +6,5 @@ import br.com.teste.livraria.model.entities.Endereco;
 
 public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 
+	public Endereco findEnderecoByCep(String cep);
 }
