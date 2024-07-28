@@ -48,6 +48,8 @@ public class Livro implements Serializable {
 	@JoinTable(name = "tb_livro_autor", joinColumns = @JoinColumn(name = "id_livro"), inverseJoinColumns = @JoinColumn(name = "id_autor"))
 	private Set<Autor> autores = new HashSet<>();
 
+	private Double preco;
+
 	public Livro() {
 	}
 
@@ -90,7 +92,15 @@ public class Livro implements Serializable {
 	public void setAutores(Set<Autor> autores) {
 		this.autores = autores;
 	}
-	
+
+	public Double getPreco() {
+		return preco;
+	}
+
+	public void setPreco(Double preco) {
+		this.preco = preco;
+	}
+
 	@PrePersist
 	@PreUpdate
 	private void validateAutores() {
