@@ -29,7 +29,7 @@ public class Resumo implements Serializable {
 
 	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_livro", nullable = false, unique = true)
+	@JoinColumn(name = "id_livro", unique = true)
 	private Livro livro;
 
 	public Resumo() {
@@ -38,6 +38,10 @@ public class Resumo implements Serializable {
 	public Resumo(String comentario, Livro livro) {
 		this.comentario = comentario;
 		this.livro = livro;
+	}
+
+	public Resumo(String comentario) {
+		this.comentario = comentario;
 	}
 
 	public Long getId() {

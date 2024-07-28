@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,9 +23,10 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private LocalDateTime instante;
+	private LocalDateTime data;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Cliente cliente;
 	
 	@OneToMany(mappedBy = "id.pedido")
@@ -34,9 +37,9 @@ public class Pedido {
 	}
 
 	public Pedido(LocalDateTime instante, Cliente cliente) {
-		super();
-		this.instante = instante;
+		this.data = instante;
 		this.cliente = cliente;
+		this.cliente.getPedidos().add(this);
 	}
 
 	public Long getId() {
@@ -48,11 +51,11 @@ public class Pedido {
 	}
 
 	public LocalDateTime getInstante() {
-		return instante;
+		return data;
 	}
 
 	public void setInstante(LocalDateTime instante) {
-		this.instante = instante;
+		this.data = instante;
 	}
 
 	public Cliente getCliente() {

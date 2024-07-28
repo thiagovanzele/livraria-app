@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,25 +20,26 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_cliente")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Cliente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(nullable = false)
 	private String nome;
-	
+
 	@Column(nullable = false, unique = true)
 	private String documento;
-	
+
 	@Column(unique = true)
 	private String email;
-	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+
+	@ManyToOne
 	private Endereco endereco;
-	
+
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 
@@ -82,12 +86,16 @@ public class Cliente implements Serializable {
 		this.email = email;
 	}
 
-	public Endereco getEndereço() {
+	public void setEndereço(Endereco endereço) {
+		this.endereco = endereço;
+	}
+
+	public Endereco getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereço(Endereco endereço) {
-		this.endereco = endereço;
+	public List<Pedido> getPedidos() {
+		return pedidos;
 	}
 
 	@Override
@@ -106,8 +114,5 @@ public class Cliente implements Serializable {
 		Cliente other = (Cliente) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
-	
+
 }

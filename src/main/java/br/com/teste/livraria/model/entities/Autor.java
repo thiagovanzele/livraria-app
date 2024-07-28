@@ -39,6 +39,12 @@ public class Autor implements Serializable {
 		this.livros = livros;
 	}
 	
+	public Autor(String nome) {
+		this.nome = nome;
+	}
+
+
+
 	public Autor(AutorDto autorDto, LivroRepository livroRepository) {
 		this.nome = autorDto.nome();
 		this.livros = autorDto.livrosIds().stream().map(id -> livroRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(Autor.class, id))).collect(Collectors.toSet());

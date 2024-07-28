@@ -36,21 +36,30 @@ public class Livro implements Serializable {
 	@Column(unique = true)
 	private String titulo;
 
-	@JoinColumn(nullable = false, unique = true)
+	@JoinColumn(unique = true)
 	@OneToOne(mappedBy = "livro", cascade = CascadeType.ALL)
 	private Resumo resumo;
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "id_editora", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "id_editora")
 	private Editora editora;
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
+	@ManyToMany
 	@JoinTable(name = "tb_livro_autor", joinColumns = @JoinColumn(name = "id_livro"), inverseJoinColumns = @JoinColumn(name = "id_autor"))
 	private Set<Autor> autores = new HashSet<>();
 
 	private Double preco;
 
 	public Livro() {
+	}
+
+	public Livro(String titulo, Resumo resumo, Editora editora, Set<Autor> autores, Double preco) {
+		this.titulo = titulo;
+		this.resumo = resumo;
+		this.editora = editora;
+		this.autores = autores;
+		this.preco = preco;
+		this.resumo.setLivro(this);
 	}
 
 	public Long getId() {
