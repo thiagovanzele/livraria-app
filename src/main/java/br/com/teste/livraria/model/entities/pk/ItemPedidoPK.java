@@ -33,6 +33,7 @@ public class ItemPedidoPK implements Serializable {
 	public void setLivro(Livro livro) {
 		this.livro = livro;
 	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(livro, pedido);

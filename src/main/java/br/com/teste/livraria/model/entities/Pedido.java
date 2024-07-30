@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,7 +27,6 @@ public class Pedido {
 	private LocalDateTime data;
 	
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 	
@@ -54,11 +51,11 @@ public class Pedido {
 		this.id = id;
 	}
 
-	public LocalDateTime getInstante() {
+	public LocalDateTime getData() {
 		return data;
 	}
 
-	public void setInstante(LocalDateTime instante) {
+	public void setData(LocalDateTime instante) {
 		this.data = instante;
 	}
 
@@ -72,6 +69,20 @@ public class Pedido {
 	
 	public Set<ItemPedido> getItens () {
 		return itens;
+	}
+	
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+	
+	public Double getTotal() {
+		Double sum = 0.0;
+		
+		for (ItemPedido item : itens) {
+			sum += item.getSubTotal();
+		}
+		
+		return sum;
 	}
 
 	@Override

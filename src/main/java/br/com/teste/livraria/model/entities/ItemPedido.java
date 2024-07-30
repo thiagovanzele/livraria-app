@@ -3,6 +3,8 @@ package br.com.teste.livraria.model.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.teste.livraria.model.entities.pk.ItemPedidoPK;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -14,7 +16,7 @@ public class ItemPedido implements Serializable {
 	private static final long serialVersionUID = 1L; 
 	
 	@EmbeddedId
-	private ItemPedidoPK id;
+	private ItemPedidoPK id = new ItemPedidoPK();
 	
 	private Integer quantidade;
 	
@@ -30,6 +32,7 @@ public class ItemPedido implements Serializable {
 		id.setPedido(pedido);
 	}
 	
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
@@ -62,6 +65,10 @@ public class ItemPedido implements Serializable {
 		this.preco = preco;
 	}
 
+	public Double getSubTotal() {
+		return preco * quantidade;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
