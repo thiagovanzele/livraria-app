@@ -40,7 +40,11 @@ public class ItemPedido implements Serializable {
 	public void setPedido(Pedido pedido) {
 		id.setPedido(pedido);
 	}
-	
+		
+	public ItemPedidoPK getId() {
+		return id;
+	}
+
 	public Livro getLivro() {
 		return id.getLivro();
 	}
