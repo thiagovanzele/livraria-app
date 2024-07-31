@@ -58,6 +58,14 @@ public class PedidoService {
 		List<Pedido> pedidos = pedidoRepository.findAll();
 		return pedidos;
 	}
+	
+	public void delete(Long id) {
+		if (!pedidoRepository.existsById(id)) {
+			throw new ResourceNotFoundException(Pedido.class, id);
+		}
+		
+		pedidoRepository.deleteById(id);
+	}
 
 	private ItemPedido convertToEntity(ItemPedidoDto itemDto) {
 		Livro livro = livroRepository.findById(itemDto.livroId())
