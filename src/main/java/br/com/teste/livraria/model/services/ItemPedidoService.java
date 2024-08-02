@@ -11,6 +11,7 @@ import br.com.teste.livraria.model.entities.Livro;
 import br.com.teste.livraria.model.entities.Pedido;
 import br.com.teste.livraria.model.entities.pk.ItemPedidoPK;
 import br.com.teste.livraria.model.exceptions.ResourceNotFoundException;
+import br.com.teste.livraria.model.exceptions.ValidationException;
 import br.com.teste.livraria.model.repositories.ItemPedidoRepository;
 import br.com.teste.livraria.model.repositories.LivroRepository;
 import br.com.teste.livraria.model.repositories.PedidoRepository;
@@ -37,6 +38,9 @@ public class ItemPedidoService {
 		ItemPedido item = new ItemPedido();
 		item.setLivro(livroRepository.findById(itemDto.livroId()).orElseThrow(() -> new ResourceNotFoundException(Livro.class, item)));
 		item.setPedido(pedidoRepository.findById(itemDto.pedidoId()).orElseThrow(() -> new ResourceNotFoundException(Pedido.class, item)));
+		if (itemDto.preco() < 0) {
+			throw new ValidationException("O item não pode ter valor negativo");
+		}
 		item.setPreco(itemDto.preco());
 		item.setQuantidade(itemDto.quantidade());
 		

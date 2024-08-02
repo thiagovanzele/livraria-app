@@ -25,7 +25,7 @@ public class ControllerExceptionHandler {
 	
 	@ExceptionHandler(ValidationException.class)
 	public ResponseEntity<StandardError> validation(ValidationException e, HttpServletRequest request) {
-		String error = "Valor não pode ser nulo";
+		String error = "Valor inválido";
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 		
