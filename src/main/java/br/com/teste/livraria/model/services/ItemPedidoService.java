@@ -2,6 +2,7 @@ package br.com.teste.livraria.model.services;
 
 import java.util.List;
 
+import org.aspectj.weaver.ast.Instanceof;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,12 +36,10 @@ public class ItemPedidoService {
 	private PedidoService pedidoService;
 	
 	public ItemPedido insert(ItemPedidoDto itemDto) {
+		validaItem(itemDto);
 		ItemPedido item = new ItemPedido();
 		item.setLivro(livroRepository.findById(itemDto.livroId()).orElseThrow(() -> new ResourceNotFoundException(Livro.class, item)));
 		item.setPedido(pedidoRepository.findById(itemDto.pedidoId()).orElseThrow(() -> new ResourceNotFoundException(Pedido.class, item)));
-		if (itemDto.preco() < 0) {
-			throw new ValidationException("O item não pode ter valor negativo");
-		}
 		item.setPreco(itemDto.preco());
 		item.setQuantidade(itemDto.quantidade());
 		
@@ -79,5 +78,11 @@ public class ItemPedidoService {
 		item.setPreco(itemPedidoDto.preco());
 		item.setQuantidade(itemPedidoDto.quantidade());
 		
+	}
+	
+	private void validaItem(ItemPedidoDto item) {
+		if (item.preco() == null || item.preco() < 0) {
+			throw new ValidationException("O valor precisa ser maior que 0");
+		}
 	}
 }

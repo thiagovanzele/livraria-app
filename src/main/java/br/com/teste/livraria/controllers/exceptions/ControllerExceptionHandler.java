@@ -2,8 +2,11 @@ package br.com.teste.livraria.controllers.exceptions;
 
 import java.time.Instant;
 
+import javax.net.ssl.SSLEngineResult.Status;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -35,6 +38,15 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(IncorrectCepException.class)
 	public ResponseEntity<StandardError> incorrectCep(IncorrectCepException e, HttpServletRequest request) {
 		String error = "CEP inexistente";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+		
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(HttpMessageNotReadableException.class)
+	public ResponseEntity<StandardError> invalidValud(HttpMessageNotReadableException e, HttpServletRequest request) {
+		String error = "Valor inválido";
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 		
