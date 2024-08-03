@@ -40,11 +40,11 @@ public class Livro implements Serializable {
 	@OneToOne(mappedBy = "livro", cascade = CascadeType.ALL)
 	private Resumo resumo;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_editora")
 	private Editora editora;
 
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "tb_livro_autor", joinColumns = @JoinColumn(name = "id_livro"), inverseJoinColumns = @JoinColumn(name = "id_autor"))
 	private Set<Autor> autores = new HashSet<>();
 

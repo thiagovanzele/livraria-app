@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.teste.livraria.model.dtos.EditoraDto;
 import br.com.teste.livraria.model.entities.Editora;
 import br.com.teste.livraria.model.entities.Livro;
 import br.com.teste.livraria.model.exceptions.ResourceNotFoundException;
+import br.com.teste.livraria.model.exceptions.ValidationException;
 import br.com.teste.livraria.model.repositories.EditoraRepository;
 import br.com.teste.livraria.model.repositories.LivroRepository;
 import jakarta.transaction.Transactional;
@@ -33,19 +35,24 @@ public class EditoraService {
 	
 	@Transactional
 	public Editora insert(EditoraDto editoraDto) {
-		Editora editora = new Editora();
-		
-		editora.setNome(editoraDto.nome());
-		editora.setLivros(livroRepositorie.findAllById(editoraDto.livrosIds()).stream().collect(Collectors.toSet()));
-		
-		for(Livro livro : editora.getLivros()) {
-			if (livro.getEditora() == null) {
-				livro.setEditora(editora);
-			}
-		}
-		
-		return editoraRepositorie.save(editora);
+	    Editora editora = new Editora();
+	    
+	    try {
+	        editora.setNome(editoraDto.nome());
+	        editora.setLivros(livroRepositorie.findAllById(editoraDto.livrosIds()).stream().collect(Collectors.toSet()));
+	        
+	        for (Livro livro : editora.getLivros()) {
+	            if (livro.getEditora() == null) {
+	                livro.setEditora(editora);
+	            }
+	        }
+	        
+	        return editoraRepositorie.save(editora);
+	    } catch (DataIntegrityViolationException e) {
+	        throw new ValidationException("Valor já existente na base de dados");
+	    }
 	}
+
 	
 	@Transactional
 	public void delete(Long id) {
@@ -58,10 +65,7 @@ public class EditoraService {
 	
 	@Transactional
 	public Editora update(Long id, EditoraDto obj) {
-		Editora editora = editoraRepositorie.getReferenceById(id);
-		if (editora == null) {
-			throw new ResourceNotFoundException(Editora.class, id);
-		}
+		Editora editora = editoraRepositorie.findById(id).orElseThrow(() -> new ResourceNotFoundException(Editora.class, id));
 		updateData(editora, obj);
 		return editoraRepositorie.save(editora);
 	}

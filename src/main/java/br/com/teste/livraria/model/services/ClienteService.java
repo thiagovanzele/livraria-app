@@ -9,6 +9,7 @@ import br.com.teste.livraria.model.dtos.ClienteDto;
 import br.com.teste.livraria.model.entities.Cliente;
 import br.com.teste.livraria.model.entities.Endereco;
 import br.com.teste.livraria.model.exceptions.ResourceNotFoundException;
+import br.com.teste.livraria.model.exceptions.ValidationException;
 import br.com.teste.livraria.model.repositories.ClienteRepository;
 
 @Service
@@ -21,6 +22,7 @@ public class ClienteService {
 	private EnderecoService enderecoService;
 
 	public Cliente insert(ClienteDto clienteDto) {
+		validaCliente(clienteDto);
 		Cliente cliente = new Cliente();
 		cliente.setNome(clienteDto.nome());
 		cliente.setEmail(clienteDto.email());
@@ -62,5 +64,15 @@ public class ClienteService {
 		cliente.setEmail(clienteDto.email());
 		cliente.setNome(clienteDto.nome());
 		
+	}
+	
+	private void validaCliente(ClienteDto cliente) {
+		if (clienteRepository.existsByEmail(cliente.email())) {
+	        throw new ValidationException("Cliente com este e-mail já cadastrado.");
+	    }
+	    
+	    if (clienteRepository.existsByDocumento(cliente.documento())) {
+	        throw new ValidationException("Cliente com este CPF já cadastrado.");
+	    }
 	}
 }

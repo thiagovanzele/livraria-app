@@ -9,6 +9,7 @@ import br.com.teste.livraria.model.dtos.AutorDto;
 import br.com.teste.livraria.model.entities.Autor;
 import br.com.teste.livraria.model.entities.Livro;
 import br.com.teste.livraria.model.exceptions.ResourceNotFoundException;
+import br.com.teste.livraria.model.exceptions.ValidationException;
 import br.com.teste.livraria.model.repositories.AutorRepository;
 import br.com.teste.livraria.model.repositories.LivroRepository;
 import jakarta.transaction.Transactional;
@@ -32,6 +33,9 @@ public class AutorService {
 
 	@Transactional
 	public Autor insert(AutorDto autorDto) {
+		if (!autorDto.nome().matches("[a-zA-Z\\s]+")) {
+	        throw new ValidationException("O nome do autor deve conter apenas letras e espaços");
+	    }
 		Autor autor = new Autor(autorDto, livroRepository);
 
 		for (Livro livro : autor.getLivros()) {

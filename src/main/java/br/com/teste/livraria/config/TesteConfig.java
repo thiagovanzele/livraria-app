@@ -62,13 +62,12 @@ public class TesteConfig implements CommandLineRunner {
 		cliente = clienteRepository.save(cliente);
 		Resumo resumo = new Resumo("Livro de Bruxos");
 		Editora editora = new Editora("Alamo");
-		editora = editoraRepository.save(editora);
 		Autor autor = new Autor("J.K Rowlling");
-		autor = autorRepository.save(autor);
 		Set<Autor> autores = Set.of(autor);
 		Livro livro = new Livro("Harry Pooter", resumo, editora, autores, 100.00);
 		Livro livro2 = new Livro("DesynPatterns", resumo, editora, autores, 50.00);
 		livro = livroRepository.save(livro);
+		livro2 = livroRepository.save(livro2);
 
 		Pedido pedido = new Pedido(LocalDateTime.now(), cliente);
 		pedido = pedidoRepository.save(pedido);
