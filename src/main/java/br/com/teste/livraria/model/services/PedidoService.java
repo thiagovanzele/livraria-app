@@ -71,7 +71,7 @@ public class PedidoService {
 		Livro livro = livroRepository.findById(itemDto.livroId())
 				.orElseThrow(() -> new ResourceNotFoundException(Livro.class, itemDto.livroId()));
 
-		return new ItemPedido(null, livro, itemDto.quantidade(), itemDto.preco());
+		return new ItemPedido(null, livro, itemDto.quantidade());
 	}
 
 }

@@ -72,10 +72,10 @@ public class TesteConfig implements CommandLineRunner {
 		Pedido pedido = new Pedido(LocalDateTime.now(), cliente);
 		pedido = pedidoRepository.save(pedido);
 
-		ItemPedido item1 = new ItemPedido(pedido, livro, 3, livro.getPreco());
-		ItemPedido item2 = new ItemPedido(pedido, livro2, 2, livro2.getPreco());
+		ItemPedido item1 = new ItemPedido(pedido, livro, 3);
+		//ItemPedido item2 = new ItemPedido(pedido, livro2, 2);
 
-		itemPedidoRepository.saveAll(Arrays.asList(item1, item2));
+		itemPedidoRepository.saveAll(Arrays.asList(item1));
 	}
 
 }

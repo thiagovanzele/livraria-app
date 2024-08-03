@@ -23,7 +23,7 @@ public class ClienteService {
 	@Autowired
 	private EnderecoService enderecoService;
 
-	private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+	private static final String EMAIL_REGEX = "^[a-zA-Z0-9._]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 	private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
 	public Cliente insert(ClienteDto clienteDto) {
