@@ -10,6 +10,7 @@ O projeto Biblioteca é uma aplicação Java desenvolvida com Spring Boot, que p
 - **Gerenciamento de Autores**: Adicionar, atualizar, excluir e listar autores.
 - **Gerenciamento de Clientes**: Adicionar, atualizar, excluir e listar clientes.
 - **Pedidos de Livros**: Criar e gerenciar pedidos de livros.
+- **ViaCepApi**: O projeto ultiliza a [API Via Cep](https://viacep.com.br/) para transformar o cep em uma entidade de endereço no BD. 
 
 ## Tecnologias Utilizadas
 
