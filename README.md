@@ -101,7 +101,7 @@ Após iniciar a aplicação, você pode acessar a API REST através do endpoint:
 - **Item Pedido**:
   - `POST /itens-pedido` - Criar um novo item de pedido.
  
-## Exemplos de Requisições HTTP
+## Exemplos de Requisições HTTP POST
 
 Aqui estão alguns exemplos de como interagir com a API usando ferramentas como Postman ou cURL:
 
@@ -249,9 +249,11 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
 }
   ```
 
+## Exemplos de Requisições HTTP GET
+
 ### **Resgatar um Livro pelo ID**
 
-- **Requisição POST**:
+- **Requisição GET**:
   ```http
   GET /livros/3
   Content-Type: application/json
@@ -283,7 +285,7 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
 
   ### **Resgatar um Cliente pelo ID**
 
-- **Requisição POST**:
+- **Requisição GET**:
   ```http
   GET /clientes/2
   Content-Type: application/json
@@ -310,7 +312,7 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
   ```
   ### **Resgatar um Pedido pelo ID**
 
-- **Requisição POST**:
+- **Requisição GET**:
   ```http
   GET /pedidos/3
   Content-Type: application/json
