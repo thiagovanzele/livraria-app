@@ -76,14 +76,14 @@ public class Pedido {
 		this.itens = itens;
 	}
 	
-	public Double getTotal() {
+	public String getTotal() {
 		Double sum = 0.0;
 		
 		for (ItemPedido item : itens) {
 			sum += item.getSubTotal();
 		}
 		
-		return sum;
+		return String.format("%.2f", sum);
 	}
 
 	@Override
