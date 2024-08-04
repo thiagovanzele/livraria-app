@@ -68,7 +68,7 @@ Antes de iniciar a aplicação, você precisa configurar as propriedades do banc
 
    spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 
-   ## Uso
+## Uso
 
 Após iniciar a aplicação, você pode acessar a API REST através do endpoint:
 
