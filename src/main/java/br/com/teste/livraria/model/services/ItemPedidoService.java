@@ -39,7 +39,8 @@ public class ItemPedidoService {
 		item.setLivro(livro);
 		
 		item.setPedido(pedidoRepository.findById(itemDto.pedidoId())
-				.orElseThrow(() -> new ResourceNotFoundException(Pedido.class, item)));
+				.orElseThrow(() -> new ResourceNotFoundException(Pedido.class, itemDto.pedidoId())));
+		
 		item.setQuantidade(itemDto.quantidade());
 		
 		item.setPreco(livro.getPreco() * itemDto.quantidade());

@@ -1,7 +1,6 @@
 package br.com.teste.livraria.model.services;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,7 +12,6 @@ import br.com.teste.livraria.model.entities.Livro;
 import br.com.teste.livraria.model.exceptions.ResourceNotFoundException;
 import br.com.teste.livraria.model.exceptions.ValidationException;
 import br.com.teste.livraria.model.repositories.EditoraRepository;
-import br.com.teste.livraria.model.repositories.LivroRepository;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -21,9 +19,6 @@ public class EditoraService {
 
 	@Autowired
 	private EditoraRepository editoraRepositorie;
-	
-	@Autowired
-	private LivroRepository livroRepositorie;
 	
 	public Editora findById(Long id) {
 		return editoraRepositorie.findById(id).orElseThrow(() -> new ResourceNotFoundException(Editora.class, id));
@@ -39,14 +34,7 @@ public class EditoraService {
 	    
 	    try {
 	        editora.setNome(editoraDto.nome());
-	        editora.setLivros(livroRepositorie.findAllById(editoraDto.livrosIds()).stream().collect(Collectors.toSet()));
-	        
-	        for (Livro livro : editora.getLivros()) {
-	            if (livro.getEditora() == null) {
-	                livro.setEditora(editora);
-	            }
-	        }
-	        
+	        	        
 	        return editoraRepositorie.save(editora);
 	    } catch (DataIntegrityViolationException e) {
 	        throw new ValidationException("Valor já existente na base de dados");
@@ -72,7 +60,6 @@ public class EditoraService {
 
 	private void updateData(Editora editora, EditoraDto obj) {
 		editora.setNome(obj.nome());
-		editora.setLivros(livroRepositorie.findAllById(obj.livrosIds()).stream().collect(Collectors.toSet()));
 		for (Livro livro : editora.getLivros()) {
 			livro.setEditora(editora);
 		}

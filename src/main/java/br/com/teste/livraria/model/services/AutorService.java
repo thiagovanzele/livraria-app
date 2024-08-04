@@ -33,7 +33,7 @@ public class AutorService {
 
 	@Transactional
 	public Autor insert(AutorDto autorDto) {
-		if (!autorDto.nome().matches("[a-zA-Z\\s]+")) {
+		if (!autorDto.nome().matches("[a-zA-Z.\\s]+")) {
 	        throw new ValidationException("O nome do autor deve conter apenas letras e espaços");
 	    }
 		Autor autor = new Autor(autorDto, livroRepository);
