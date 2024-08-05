@@ -30,16 +30,11 @@ public class ItemPedidoService {
 	@Autowired
 	private LivroService livroService;
 
-	@Autowired
-	private PedidoService pedidoService;
 
 	public ItemPedido insert(ItemPedidoDto itemDto) {
 		ItemPedido item = new ItemPedido();
 		Livro livro = livroService.findById(itemDto.livroId());
 		item.setLivro(livro);
-		
-		item.setPedido(pedidoRepository.findById(itemDto.pedidoId())
-				.orElseThrow(() -> new ResourceNotFoundException(Pedido.class, itemDto.pedidoId())));
 		
 		item.setQuantidade(itemDto.quantidade());
 		
@@ -72,15 +67,14 @@ public class ItemPedidoService {
 		itemPedidoRepository.deleteById(id);
 	}
 
-	public ItemPedido update(ItemPedidoDto itemPedidoDto) {
-		ItemPedido item = findById(itemPedidoDto.pedidoId(), itemPedidoDto.livroId());
+	public ItemPedido update(Long idPedido, Long idLivro, ItemPedidoDto itemPedidoDto) {
+		ItemPedido item = findById(idPedido, idLivro);
 		updateData(item, itemPedidoDto);
 		return itemPedidoRepository.save(item);
 	}
 
 	private void updateData(ItemPedido item, ItemPedidoDto itemPedidoDto) {
 		item.setLivro(livroService.findById(itemPedidoDto.livroId()));
-		item.setPedido(pedidoService.findById(itemPedidoDto.pedidoId()));
 		item.setQuantidade(itemPedidoDto.quantidade());
 
 	}

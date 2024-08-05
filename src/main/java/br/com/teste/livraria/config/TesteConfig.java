@@ -37,12 +37,6 @@ public class TesteConfig implements CommandLineRunner {
 	private LivroRepository livroRepository;
 
 	@Autowired
-	private AutorRepository autorRepository;
-
-	@Autowired
-	private EditoraRepository editoraRepository;
-
-	@Autowired
 	private EnderecoRepository enderecoRepository;
 
 	@Autowired
