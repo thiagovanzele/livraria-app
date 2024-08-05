@@ -85,6 +85,7 @@ public class LivroService {
 	private void updateData(Livro livro, LivroDto livroDto) {
 		livro.setTitutlo(livroDto.titulo());
 		livro.getResumo().setComentario(livroDto.resumo());
+		livro.setPreco(livroDto.preco());
 
 		Resumo resumo = livro.getResumo();
 		resumo.setLivro(livro);
