@@ -121,9 +121,9 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
   }
   ```
 
-### **Retorno da Requisição:**
+- **Retorno da Requisição:**
 
-```http
+  ```http
    {
   "id": 2,
   "titulo": "Harry Potter e a Pedra Filosofal",
@@ -145,7 +145,7 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
   }
   ```
 
-  ### **Adicionar um Novo Cliente**
+### **Adicionar um Novo Cliente**
 
 - **Requisição POST**:
   ```http
@@ -161,9 +161,9 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
   }
   ```
 
-  ### **Retorno da Requisição:**
-```http
-  {
+- **Retorno da Requisição:**
+  ```http
+   {
     "id": 1,
     "nome": "João Silva",
     "documento": "12345678901",
@@ -180,7 +180,7 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
     }
   }
   ```
-  ### **Adicionar um novo pedido**
+### **Adicionar um novo pedido**
 
 - **Requisição POST**:
   ```http
@@ -197,10 +197,10 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
   }
   ```
 
-### **Retorno da Requisição:**
+- **Retorno da Requisição:**
 
- ```http
- {
+  ```http
+  {
     "id": 1,
     "data": "2024-08-04T15:30:00",
     "cliente": {
@@ -246,10 +246,63 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
         }
     ],
     "total": 105.87
-}
+  }
   ```
 
 ## Exemplos de Requisições HTTP GET
+
+### **Resgatar Livros por Nome**
+
+- **Requisição GET**:
+  ```http
+  GET /livros/buscarpornome/harry
+  Content-Type: application/json
+  ```
+
+- **Retorno da Requisição:**
+
+  ```http
+   [
+    {
+        "id": 2,
+        "titulo": "Harry Potter e a Pedra Filosofal",
+        "resumo": {
+            "id": 1,
+            "comentario": "Harry Potter, um garoto de 11 anos, descobre que é um bruxo e vai para a Escola de Magia e Bruxaria de Hogwarts."
+        },
+        "editora": {
+            "id": 1,
+            "nome": "Bloomsbury Publishing"
+        },
+        "autores": [
+            {
+                "id": 1,
+                "nome": "J. K. Rowling"
+            }
+        ],
+        "preco": 35.29
+    },
+    {
+        "id": 6,
+        "titulo": "Harry Potter e a Câmara Secreta",
+        "resumo": {
+            "id": 3,
+            "comentario": "Harry Potter em seu segundo ano em Hogwarts, onde ele descobre que a Câmara Secreta foi aberta novamente, causando ataques misteriosos a alunos e um gato."
+        },
+        "editora": {
+            "id": 1,
+            "nome": "Bloomsbury Publishing"
+        },
+        "autores": [
+            {
+                "id": 1,
+                "nome": "J. K. Rowling"
+            }
+        ],
+        "preco": 35.99
+    }
+  ]
+  ```
 
 ### **Resgatar um Livro pelo ID**
 
@@ -259,9 +312,9 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
   Content-Type: application/json
   ```
 
-### **Retorno da Requisição:**
+- **Retorno da Requisição:**
 
-```http
+  ```http
    {
     "id": 3,
     "titulo": "Memorias Postumas de Brás Cubas",
@@ -280,10 +333,10 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
         }
     ],
     "preco": 25.19
-}
+  }
   ```
 
-  ### **Resgatar um Cliente pelo ID**
+### **Resgatar um Cliente pelo ID**
 
 - **Requisição GET**:
   ```http
@@ -291,9 +344,9 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
   Content-Type: application/json
   ```
 
-  ### **Retorno da Requisição:**
-```http
- {
+- **Retorno da Requisição:**
+  ```http
+  {
     "id": 2,
     "nome": "Maria Joana",
     "documento": "45678912345",
@@ -308,19 +361,19 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
         "estado": "RJ",
         "numero": "456"
     }
-}
+  }
   ```
   ### **Resgatar um Pedido pelo ID**
 
 - **Requisição GET**:
   ```http
-  GET /pedidos/3
+  GET /pedidos/2
   Content-Type: application/json
   ```
 
-### **Retorno da Requisição:**
+- **Retorno da Requisição:**
 
- ```http
+  ```http
    {
     "id": 2,
     "data": "2024-08-02T10:30:00",
@@ -391,8 +444,50 @@ Aqui estão alguns exemplos de como interagir com a API usando ferramentas como 
         }
     ],
     "total": "60,48"
-}
+  }
   ```
+## Exemplos de Requisições HTTP PUT
+
+### **Alterar um Livro pelo ID**
+
+- **Requisição PUT**:
+  ```http
+  PUT /livros/6
+  Content-Type: application/json
+
+  {
+    "titulo" : "Harry Potter e a Câmara Secreta",
+    "resumo" : "Harry Potter em seu segundo ano em Hogwarts, onde ele descobre que a Câmara Secreta foi aberta novamente, causando ataques misteriosos a alunos e um gato.",
+    "idEditora" : 1,
+    "autoresIds" : [1],
+    "preco" : 35.99
+  }
+  ```
+
+- **Retorno da Requisição:**
+
+  ```http
+   {
+    "id": 6,
+    "titulo": "Harry Potter e a Câmara Secreta",
+    "resumo": {
+        "id": 3,
+        "comentario": "Harry Potter em seu segundo ano em Hogwarts, onde ele descobre que a Câmara Secreta foi aberta novamente, causando ataques misteriosos a alunos e um gato."
+    },
+    "editora": {
+        "id": 1,
+        "nome": "Bloomsbury Publishing"
+    },
+    "autores": [
+        {
+            "id": 1,
+            "nome": "J. K. Rowling"
+        }
+    ],
+    "preco": 35.99
+  }
+  ```
+
 
 ## Licença
 
